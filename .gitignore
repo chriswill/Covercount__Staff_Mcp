@@ -1,0 +1,19 @@
+# Local credentials and machine-specific files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+.vs/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated output
+dist/
+logs/
+*.log
+*.zip
+__pycache__/

@@ -1,0 +1,11 @@
+interface:
+  display_name: "CoverCount Reservation Briefing"
+  short_description: "Daily and weekly reservation briefings"
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "covercount"
+      description: "CoverCount staff reservation and event tools"
+      transport: "streamable_http"
+      url: "https://mcp.covercount.io/mcp"

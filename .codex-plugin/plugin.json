@@ -1,0 +1,33 @@
+{
+  "name": "covercount",
+  "version": "0.3.0",
+  "description": "Reservation briefings and venue operations with CoverCount.",
+  "author": {
+    "name": "CoverCount",
+    "url": "https://www.covercount.io/"
+  },
+  "homepage": "https://www.covercount.io/",
+  "keywords": ["reservations", "events", "hospitality", "venue-operations"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CoverCount",
+    "shortDescription": "Brief your team and manage venue operations.",
+    "longDescription": "Summarize reservations, covers and event activity. Find bookings, check availability, manage reservations and send guest messages. Event changes and refund recovery use review in CoverCount. Access follows your connected venue and staff permissions.",
+    "developerName": "CoverCount",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Write"],
+    "websiteURL": "https://www.covercount.io/",
+    "privacyPolicyURL": "https://www.covercount.io/privacy",
+    "termsOfServiceURL": "https://www.covercount.io/terms-of-service",
+    "defaultPrompt": [
+      "What do my reservations look like next week?",
+      "How are this week's events doing?",
+      "Help me find and update a reservation."
+    ],
+    "brandColor": "#FBBF24",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/logo.svg",
+    "logoDark": "./assets/logo-dark.svg"
+  },
+  "mcpServers": "./.mcp.json"
+}

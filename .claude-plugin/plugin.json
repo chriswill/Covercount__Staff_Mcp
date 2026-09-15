@@ -1,0 +1,13 @@
+{
+  "name": "covercount",
+  "version": "0.3.0",
+  "description": "Reservation briefings and venue operations with CoverCount.",
+  "author": {
+    "name": "CoverCount",
+    "url": "https://www.covercount.io/"
+  },
+  "homepage": "https://www.covercount.io/",
+  "keywords": ["reservations", "events", "hospitality", "venue-operations"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json"
+}
