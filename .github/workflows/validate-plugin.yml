@@ -1,0 +1,56 @@
+name: Validate plugin
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Claude Code CLI
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate plugin manifest
+        run: claude plugin validate . --strict
+
+      - name: Check manifests
+        run: |
+          python3 - <<'PY'
+          import json, sys
+
+          MANIFESTS = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json']
+          failed = False
+          versions = {}
+
+          for path in MANIFESTS:
+              with open(path) as fh:
+                  data = json.load(fh)
+              versions[path] = data.get('version')
+              for key, value in data.items():
+                  if not isinstance(value, str):
+                      continue
+                  if not ('/' in value or value.endswith('.json')):
+                      continue
+                  if value.startswith(('./', 'http://', 'https://')):
+                      continue
+                  print(f"::error file={path}::'{key}' is '{value}' - "
+                        f"relative paths must start with ./")
+                  failed = True
+
+          if len(set(versions.values())) > 1:
+              print(f"::error::manifest versions disagree: {versions}")
+              failed = True
+          else:
+              print(f"version: {next(iter(versions.values()))}")
+
+          sys.exit(1 if failed else 0)
+          PY
