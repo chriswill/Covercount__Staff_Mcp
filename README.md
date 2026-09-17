@@ -48,6 +48,14 @@ it is retained, and how to exercise your rights.
 
 Privacy questions: privacy@covercount.io
 
+## License
+
+Licensed under the Apache License, Version 2.0. See [LICENSE.txt](LICENSE.txt).
+
+The license covers the plugin manifests, skills and documentation in this
+repository. It does not grant rights to the CoverCount name, logos or other
+brand assets, including the files in `assets/` (Apache License, Section 6).
+
 [CoverCount](https://www.covercount.io/) ·
 [Support](https://www.covercount.io/contact) ·
 [Privacy](https://www.covercount.io/privacy) ·
