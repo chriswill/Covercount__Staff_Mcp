@@ -30,10 +30,23 @@ Event publication, capacity changes and cancellation refund recovery still requi
 your review in CoverCount. Messages and refunds can remain pending after an
 operation succeeds; the assistant checks status instead of repeating the action.
 
-Version `0.3.0` is a release candidate. The directory includes Codex and Claude
+Version `1.0.0` is the first stable release. The directory includes Codex and Claude
 Code manifests with one shared remote MCP connection. Host-specific installation,
-OAuth and skill activation still need acceptance in the intended client. This
-archive does not establish a published ChatGPT or Claude listing.
+OAuth and skill activation still need acceptance in the intended client.
+
+## Privacy Policy
+
+CoverCount's privacy policy is published at
+<https://www.covercount.io/privacy>.
+
+This plugin connects to the remote CoverCount MCP server at
+`https://mcp.covercount.io/mcp` using your own CoverCount staff account. It
+stores no data locally. Reservation, guest, event and messaging data accessed
+through the connection is handled under the policy above, which covers what is
+collected, how it is used and stored, the processors it is shared with, how long
+it is retained, and how to exercise your rights.
+
+Privacy questions: privacy@covercount.io
 
 [CoverCount](https://www.covercount.io/) ·
 [Support](https://www.covercount.io/contact) ·
