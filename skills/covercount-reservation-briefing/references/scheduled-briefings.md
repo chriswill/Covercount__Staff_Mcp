@@ -31,7 +31,9 @@ Example reusable task text:
 
 > Use $covercount-reservation-briefing to read today's CoverCount reservations.
 > Give the venue, local date and as-of time; reservation and cover totals; largest
-> parties and times; and recorded birthday/anniversary highlights with coverage.
+> parties and times; tagged Birthday/Anniversary celebrations and relevant guest
+> tags such as VIP. Tags are primary; stored dates are supplementary and rarely
+> available. Never suppress a tagged celebration because date matches are zero.
 > If the read fails, say the briefing could not be refreshed.
 
 For a weekly task, substitute "next calendar week, Monday through Sunday" and ask
