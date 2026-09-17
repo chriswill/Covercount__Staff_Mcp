@@ -10,6 +10,7 @@ Try:
 - "How are this week's events doing?"
 - "Help me find and update a reservation."
 - "Which table is this reservation on? Move it to table 12."
+- "Draft an email to the guest about their reservation."
 
 The five included skills cover reservation briefings, reservation management,
 individual guest messages, event operations and recovery of an existing
@@ -23,14 +24,20 @@ schedule by itself.
 
 Reservation creation, cancellation and modification run when you request them
 and the required details are clear. For a message the assistant drafts or edits,
-it shows the exact text and booking for your confirmation before sending. An
+it shows the exact text, booking, channel, recipient and email subject for your
+confirmation before sending. An
 explicit request to send your own exact text can proceed directly.
 
 Event publication, capacity changes and cancellation refund recovery still require
 your review in CoverCount. Messages and refunds can remain pending after an
 operation succeeds; the assistant checks status instead of repeating the action.
 
-Version `1.0.0` is the first stable release. The directory includes Codex and Claude
+Guest messages support email and SMS. When you leave the channel open, the
+assistant prefers eligible email. Email requires separate consent and works
+without SMS setup or opt-in. An explicit request to text will not silently become
+email. Email uses the configured sender; CoverCount does not provide a reply inbox.
+
+Version `1.2.0` adds email messaging and channel eligibility. The directory includes Codex and Claude
 Code manifests with one shared remote MCP connection. Host-specific installation,
 OAuth and skill activation still need acceptance in the intended client.
 
@@ -57,6 +64,6 @@ repository. It does not grant rights to the CoverCount name, logos or other
 brand assets, including the files in `assets/` (Apache License, Section 6).
 
 [CoverCount](https://www.covercount.io/) ·
-[Support](https://www.covercount.io/contact) ·
+[Support](https://support.cloudscope.io/) ·
 [Privacy](https://www.covercount.io/privacy) ·
 [Terms](https://www.covercount.io/terms-of-service)

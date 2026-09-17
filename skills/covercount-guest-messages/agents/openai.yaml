@@ -1,6 +1,6 @@
 interface:
   display_name: "CoverCount Guest Messages"
-  short_description: "Draft and send reviewed guest SMS messages"
+  short_description: "Draft and send guest email or SMS messages"
 
 dependencies:
   tools:

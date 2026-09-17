@@ -1,6 +1,6 @@
 {
   "name": "covercount",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Reservation briefings and venue operations with CoverCount.",
   "author": {
     "name": "CoverCount",
@@ -17,7 +17,6 @@
     "category": "Productivity",
     "capabilities": ["Interactive", "Write"],
     "websiteURL": "https://www.covercount.io/",
-    "supportURL": "https://support.cloudscope.io/",
     "privacyPolicyURL": "https://www.covercount.io/privacy",
     "termsOfServiceURL": "https://www.covercount.io/terms-of-service",
     "defaultPrompt": [
