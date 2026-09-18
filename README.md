@@ -37,7 +37,10 @@ assistant prefers eligible email. Email requires separate consent and works
 without SMS setup or opt-in. An explicit request to text will not silently become
 email. Email uses the configured sender; CoverCount does not provide a reply inbox.
 
-Version `1.2.0` adds email messaging and channel eligibility. The directory includes Codex and Claude
+Version `1.2.1` adds event-detail guidance for ticket prices, capacity, paid/free/
+complimentary counts and venue-local sales cutoffs. It retains email messaging
+and channel eligibility from `1.2.0`. The event overview requires the corresponding
+MCP server update and refreshed tool discovery. The directory includes Codex and Claude
 Code manifests with one shared remote MCP connection. Host-specific installation,
 OAuth and skill activation still need acceptance in the intended client.
 
