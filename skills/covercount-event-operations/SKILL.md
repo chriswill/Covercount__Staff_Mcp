@@ -2,7 +2,7 @@
 name: covercount-event-operations
 description: Create CoverCount event briefings with session totals, recorded check-ins and authorized financial results; find sessions or prepare approved visibility/capacity changes. Use for event performance and scheduled event reports, not dining reservations or ticket purchases.
 metadata:
-  version: "0.2.1"
+  version: "0.2.2"
 ---
 
 # CoverCount event operations
@@ -151,10 +151,13 @@ registrations. New sales/content changes may invalidate a prepared proposal.
 
 Show the returned `approvalUrl`, intended scope and change. The original requester
 must approve the exact proposal in CoverCount; do not automate approval or treat
-chat confirmation as equivalent. When approval is reported, read
-`get_operation_status(operationKey)`. If the state is approved and executable,
-call `commit_event_publication` or `commit_capacity_change` with only that key,
-without another chat confirmation.
+chat confirmation as equivalent. Approval also applies the change and displays
+its result on the review page. When the user returns or asks for progress, read
+`get_operation_status(operationKey)`. Report a succeeded change without committing
+again. If the state is still approved and executable after an interruption or on
+an older API, call `commit_event_publication` or `commit_capacity_change` with only
+that key, without another chat confirmation. Never require a separate "commit"
+instruction after verified approval.
 
 After a prepare timeout, reuse its idempotency key and unchanged arguments. After
 a commit timeout, look up the original operation key. `executing` or reconciliation

@@ -2,7 +2,7 @@
 name: covercount-refund-recovery
 description: Check or request reviewed recovery of a CoverCount refund already selected when a reservation or event registration was cancelled. Use for a stuck cancellation refund; this does not issue discretionary refunds on active bookings or change refund amounts.
 metadata:
-  version: "0.1.1"
+  version: "0.1.2"
 ---
 
 # CoverCount cancellation refund recovery
@@ -48,15 +48,19 @@ key; after a prepare timeout retry them unchanged.
 Show the returned `approvalUrl` and explain that it reviews recovery of the refund
 already selected at cancellation. The original requester approves inside
 CoverCount. Do not automate this approval or replace it with a chat "yes".
+Approval also records the recovery request and displays its result on the review
+page. This does not establish that money has been refunded.
 The original refund can complete while review is open; preparation does not
 pause cancellation processing or authorize another refund.
 
 After the requester completes review, read `get_operation_status` for the returned
 `operationKey`. If the refund has already succeeded, report that and stop. If the
 server requires reconciliation, stop for investigation. Otherwise, when the
-operation is `approved` and the commit tool is available, call `commit_refund`
+operation is still `approved` after an interruption or on an older API and the
+commit tool is available, call `commit_refund`
 with only `operationKey`. No second chat confirmation is needed for that same
-approved recovery request. Never add an amount or a new booking to commit.
+approved recovery request. A succeeded recovery request must not be committed
+again. Never add an amount or a new booking to commit.
 
 Interpret the status fields together: `refund.reconciliationRequired: true`,
 `nextStep: "reconciliation_required_do_not_retry"`, or refund states
