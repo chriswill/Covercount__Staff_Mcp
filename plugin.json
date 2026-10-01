@@ -1,0 +1,39 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "covercount",
+  "version": "1.2.4",
+  "description": "Reservation briefings and venue operations with CoverCount.",
+  "author": {
+    "name": "CoverCount",
+    "url": "https://www.covercount.io/"
+  },
+  "homepage": "https://www.covercount.io/",
+  "keywords": ["reservations", "events", "hospitality", "venue-operations"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "CoverCount",
+        "shortDescription": "Bookings and venue operations",
+        "longDescription": "Summarize reservations, covers and event activity. Find bookings, check availability, manage reservations and send guest messages. Event changes and refund recovery use review in CoverCount. Access follows your connected venue and staff permissions.",
+        "developerName": "CoverCount",
+        "category": "Productivity",
+        "capabilities": ["Interactive", "Write"],
+        "websiteURL": "https://www.covercount.io/",
+        "supportURL": "https://support.cloudscope.io/",
+        "privacyPolicyURL": "https://www.covercount.io/privacy",
+        "termsOfServiceURL": "https://www.covercount.io/terms-of-service",
+        "defaultPrompt": [
+          "What do my reservations look like next week?",
+          "How are this week's events doing?",
+          "Help me find and update a reservation."
+        ],
+        "composerIcon": "./assets/icon.png",
+        "logo": "./assets/icon.png",
+        "logoDark": "./assets/icon.png"
+      },
+      "publication": {
+        "release_notes": "Adds the portable OpenAI package and MCP connection, restores the support link, and shortens the listing subtitle. Includes the PNG icon from 1.2.3 and the approval-execution guidance from 1.2.2. Staff workflows and the MCP endpoint are unchanged."
+      }
+    }
+  }
+}

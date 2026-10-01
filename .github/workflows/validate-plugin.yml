@@ -26,8 +26,9 @@ jobs:
         run: |
           python3 - <<'PY'
           import json, sys
+          from pathlib import Path
 
-          MANIFESTS = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json']
+          MANIFESTS = ['plugin.json', '.claude-plugin/plugin.json', '.codex-plugin/plugin.json']
           failed = False
           versions = {}
 
@@ -51,6 +52,34 @@ jobs:
               failed = True
           else:
               print(f"version: {next(iter(versions.values()))}")
+
+          with open('plugin.json') as fh:
+              portable = json.load(fh)
+          with open('.codex-plugin/plugin.json') as fh:
+              codex = json.load(fh)
+          interface = portable['extensions']['com.openai']['interface']
+          assert interface == codex['interface'], 'OpenAI listing metadata differs'
+          assert 1 <= len(interface['shortDescription']) <= 30, 'Subtitle exceeds 30 characters'
+          assert interface['supportURL'] == 'https://support.cloudscope.io/'
+          assert not {'skills', 'mcpServers', 'apps', 'interface'} & portable.keys()
+          assert 'apps' not in portable['extensions']['com.openai'] and 'apps' not in codex
+          with open('mcp.json') as fh:
+              mcp = json.load(fh)
+          assert mcp == {
+              '$schema': 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
+              'mcpServers': {'covercount': {
+                  'type': 'streamable-http', 'url': 'https://mcp.covercount.io/mcp'}}}
+
+          with open('distribution.json') as fh:
+              distribution = json.load(fh)['openai']
+          # Registered name confirmed by the existing listing's upload error on 2026-10-01.
+          assert distribution['packageName'] == 'app-6aaac50b4e908191bd7d24e896d729bf'
+          skills = {path.name for path in Path('skills').iterdir() if path.is_dir()}
+          aliases = distribution['skillNames']
+          assert aliases.keys() <= skills, 'Unknown export skill name'
+          exported = {aliases.get(name, name) for name in skills}
+          assert len(exported) == len(skills), 'Duplicate export skill names'
+          assert all(len(distribution['packageName'] + ':' + name) <= 64 for name in exported)
 
           sys.exit(1 if failed else 0)
           PY

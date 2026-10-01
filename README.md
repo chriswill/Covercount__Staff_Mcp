@@ -37,6 +37,31 @@ assistant prefers eligible email. Email requires separate consent and works
 without SMS setup or opt-in. An explicit request to text will not silently become
 email. Email uses the configured sender; CoverCount does not provide a reply inbox.
 
+Version `1.2.4` adds the portable OpenAI `plugin.json` and `mcp.json`, restores
+the support link, and fits the listing subtitle within 30 characters. The Staff
+skills, prompts, icon and authenticated MCP endpoint are unchanged. For OpenAI,
+use the complete `covercount-openai-1.2.4.zip` built by the workspace release
+builder; it includes all five skills and the MCP connection. The skills-only
+archive is not a replacement for this package. Upload it as an update to the
+existing CoverCount plugin and verify its saved review and publication details.
+The package includes release notes; existing demo, reviewer access, countries
+and publisher verification remain separate portal requirements.
+
+The existing OpenAI Staff listing requires the internal package name
+`app-6aaac50b4e908191bd7d24e896d729bf`, confirmed by the portal's upload rejection
+on October 1, 2026. [distribution.json](distribution.json) records that identity
+for the release builder. The OpenAI export uses it for both manifests and the
+ZIP's root folder, while the visible name remains **CoverCount**. The source and
+combined Codex/Claude package retain `covercount`; the MCP connection key also
+remains `covercount` at `https://mcp.covercount.io/mcp`.
+
+OpenAI limits `plugin-name:skill-name` to 64 characters. Its export therefore
+maps `covercount-manage-reservations` to `manage-reservations` and
+`covercount-reservation-briefing` to `reservation-briefing`, including folder
+names, frontmatter and explicit skill invocations. Other skill names and all
+workflow instructions remain unchanged. These export mappings apply only to
+the Staff listing; do not copy its registered identity to Explore.
+
 Version `1.2.3` replaces the default listing icon with the supplied 1024 x 1024
 PNG emblem at [assets/icon.png](assets/icon.png), including composer and light/dark
 logo metadata. Use this PNG when a directory submission asks for an icon upload.
@@ -48,8 +73,8 @@ CoverCount also executes the reviewed request. Assistants read its status before
 any recovery commit; no second chat confirmation is needed. This behavior requires
 the corresponding API/ui update. It retains event-detail guidance from `1.2.1`
 and email messaging from `1.2.0`; refresh MCP instructions and installed skills.
-The directory includes Codex and Claude
-Code manifests with one shared remote MCP connection. Host-specific installation,
+The directory includes portable OpenAI, Codex and Claude
+Code manifests for the same remote MCP connection. Host-specific installation,
 OAuth and skill activation still need acceptance in the intended client.
 
 ## Privacy Policy

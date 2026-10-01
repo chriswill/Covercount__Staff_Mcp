@@ -1,0 +1,9 @@
+{
+  "openai": {
+    "packageName": "app-6aaac50b4e908191bd7d24e896d729bf",
+    "skillNames": {
+      "covercount-manage-reservations": "manage-reservations",
+      "covercount-reservation-briefing": "reservation-briefing"
+    }
+  }
+}
