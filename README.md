@@ -1,4 +1,4 @@
-# CoverCount
+# CoverCount Staff
 
 Get reservation and event briefings and manage operations for your connected
 CoverCount venue. Sign in with your own CoverCount staff account and approve the
@@ -37,30 +37,82 @@ assistant prefers eligible email. Email requires separate consent and works
 without SMS setup or opt-in. An explicit request to text will not silently become
 email. Email uses the configured sender; CoverCount does not provide a reply inbox.
 
+**OpenAI review metadata (October 1, 2026):** version `1.2.8` names the product
+**CoverCount Staff** and adds five positive
+and three negative cases, the owner's demo recording, United States availability,
+and the owner's no-purchases/payments declaration with an explicit explanation of
+existing cancellation-refund recovery. The canonical fields are in root
+`plugin.json` under `extensions.com.openai.review` and `publication`. OpenAI uses
+these portable fields ahead of the Codex compatibility manifest; do not maintain
+a second copy of the cases there. Reupload
+`covercount-openai-new-listing-1.2.8.zip` to the **same `covercount-staff` draft**.
+The builder also generates `covercount-openai-new-listing-1.2.8-review.md` outside
+the ZIP with all metadata, fixture requirements and a recording walkthrough.
+Cases are drafted, not run. Reviewer access and credentials belong in the secure
+portal fields. MCP connection, live case execution and submission remain separate.
+
+**OpenAI listing clarification (October 1, 2026):** version `1.2.7` selects
+**Business & Operations**, states the restaurant/venue staff audience explicitly,
+and uses concrete workflow labels in the listing. This responds to the portal's
+category-fit warning on `1.2.6`. Reupload
+`covercount-openai-new-listing-1.2.7.zip` to the **same `covercount-staff` draft**;
+the `new-listing` build target means the replacement identity, including later
+updates to it. No further listing or MCP connection change is needed for this
+metadata patch. The portal subsequently showed **No Issues** for metadata and
+**Checks passed** for all five skills. Review information and MCP setup were still
+incomplete; `1.2.8` supplies the review metadata.
+
+**Replacement identity introduced in 1.2.6 (October 1, 2026):** version `1.2.6` adds
+the separate `openaiNewListing` export identity `covercount-staff` in
+[distribution.json](distribution.json). Build with
+`python resources/scripts/build-covercount-plugin.py --openai-target new-listing`
+from the Reservations workspace. The resulting
+`covercount-openai-new-listing-1.2.8.zip` targets the **replacement public listing**, with one
+`covercount` MCP key and all five canonical skill names. Its endpoint, skills,
+prompts and branding are unchanged. Connection setup, review materials, review
+and publication must be completed for the new listing; existing user connections
+are not migrated by this package. The legacy identity below remains recorded
+separately. No new listing or unpublication has been performed by the builder.
+
+**Legacy OpenAI update blocked (October 1, 2026):** the `1.2.4` draft passes metadata
+and skill checks but lists an unresolved `covercount` declaration alongside the
+authorized legacy **CoverCount Staff** connection. Removing that declaration in
+candidate `1.2.5` was rejected by the portal as an unsupported MCP-server change.
+Do not use `1.2.5` as a fix. The failed omission rule was withdrawn. Following
+support guidance supplied by the owner, the replacement package uses a new
+identity rather than attempting another change to that existing listing.
+The last verified portal state was published `1.0.0` and saved draft `1.2.4`;
+`1.2.5` was not accepted or published. Unpublishing changes public visibility;
+it does not establish that the legacy identity can accept this replacement ZIP.
+
 Version `1.2.4` adds the portable OpenAI `plugin.json` and `mcp.json`, restores
 the support link, and fits the listing subtitle within 30 characters. The Staff
-skills, prompts, icon and authenticated MCP endpoint are unchanged. For OpenAI,
-use the complete `covercount-openai-1.2.4.zip` built by the workspace release
-builder; it includes all five skills and the MCP connection. The skills-only
-archive is not a replacement for this package. Upload it as an update to the
-existing CoverCount plugin and verify its saved review and publication details.
+skills, prompts, icon and authenticated MCP endpoint are unchanged. The complete
+`covercount-openai-1.2.4.zip` includes all five skills and the MCP declaration;
+it is a saved draft with the unresolved setup issue above, not an approved update.
 The package includes release notes; existing demo, reviewer access, countries
 and publisher verification remain separate portal requirements.
 
-The existing OpenAI Staff listing requires the internal package name
+The legacy OpenAI Staff listing requires the internal package name
 `app-6aaac50b4e908191bd7d24e896d729bf`, confirmed by the portal's upload rejection
 on October 1, 2026. [distribution.json](distribution.json) records that identity
-for the release builder. The OpenAI export uses it for both manifests and the
-ZIP's root folder, while the visible name remains **CoverCount**. The source and
+for the release builder's explicit `--openai-target existing-listing` option.
+That export uses it for both manifests and the
+ZIP's root folder, while the visible product name is **CoverCount Staff**. The source and
 combined Codex/Claude package retain `covercount`; the MCP connection key also
-remains `covercount` at `https://mcp.covercount.io/mcp`.
+remains `covercount` at `https://mcp.covercount.io/mcp`. The portal's existing app
+is `asdk_app_6aaac50b4e908191bd7d24e896d729bf`, shown as authorized and domain
+verified, with MCP key "Not specified". Its downloaded published `1.0.0` ZIP has
+no MCP/app configuration files. This evidence does not make removing the current
+draft's declaration a supported update; the portal has explicitly rejected it.
 
 OpenAI limits `plugin-name:skill-name` to 64 characters. Its export therefore
 maps `covercount-manage-reservations` to `manage-reservations` and
 `covercount-reservation-briefing` to `reservation-briefing`, including folder
 names, frontmatter and explicit skill invocations. Other skill names and all
-workflow instructions remain unchanged. These export mappings apply only to
-the Staff listing; do not copy its registered identity to Explore.
+workflow instructions remain unchanged. These aliases apply only to the legacy
+Staff export; the replacement `covercount-staff` export needs no aliases.
+Do not copy either Staff identity to Explore.
 
 Version `1.2.3` replaces the default listing icon with the supplied 1024 x 1024
 PNG emblem at [assets/icon.png](assets/icon.png), including composer and light/dark

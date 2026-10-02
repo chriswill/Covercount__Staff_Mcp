@@ -1,7 +1,7 @@
 {
   "name": "covercount",
-  "version": "1.2.4",
-  "description": "Reservation briefings and venue operations with CoverCount.",
+  "version": "1.2.8",
+  "description": "Reservation and event operations for restaurant and venue staff.",
   "author": {
     "name": "CoverCount",
     "url": "https://www.covercount.io/"

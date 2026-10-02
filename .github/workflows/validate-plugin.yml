@@ -63,6 +63,20 @@ jobs:
           assert interface['supportURL'] == 'https://support.cloudscope.io/'
           assert not {'skills', 'mcpServers', 'apps', 'interface'} & portable.keys()
           assert 'apps' not in portable['extensions']['com.openai'] and 'apps' not in codex
+          review = portable['extensions']['com.openai']['review']
+          assert review.keys() <= {'test_cases', 'demo_recording_url', 'commerce', 'commerce_description'}
+          cases = review['test_cases']
+          assert set(cases) == {'positive', 'negative'}
+          for kind, count in (('positive', 5), ('negative', 3)):
+              assert isinstance(cases[kind], list) and len(cases[kind]) == count
+              fields = {'description', 'prompt'}
+              if kind == 'positive':
+                  fields |= {'tools_triggered', 'expected_behavior'}
+              for case in cases[kind]:
+                  assert set(case) == fields
+                  assert all(isinstance(value, str) and value.strip() for value in case.values())
+                  assert len(case['description']) <= 4000
+          assert len({case['prompt'] for group in cases.values() for case in group}) == 8
           with open('mcp.json') as fh:
               mcp = json.load(fh)
           assert mcp == {
@@ -71,15 +85,21 @@ jobs:
                   'type': 'streamable-http', 'url': 'https://mcp.covercount.io/mcp'}}}
 
           with open('distribution.json') as fh:
-              distribution = json.load(fh)['openai']
+              distributions = json.load(fh)
+          assert set(distributions) == {'openai', 'openaiNewListing'}
+          distribution = distributions['openai']
           # Registered name confirmed by the existing listing's upload error on 2026-10-01.
           assert distribution['packageName'] == 'app-6aaac50b4e908191bd7d24e896d729bf'
           skills = {path.name for path in Path('skills').iterdir() if path.is_dir()}
-          aliases = distribution['skillNames']
-          assert aliases.keys() <= skills, 'Unknown export skill name'
-          exported = {aliases.get(name, name) for name in skills}
-          assert len(exported) == len(skills), 'Duplicate export skill names'
-          assert all(len(distribution['packageName'] + ':' + name) <= 64 for name in exported)
+          assert distributions['openaiNewListing'] == {
+              'packageName': 'covercount-staff', 'skillNames': {}}
+          assert len({item['packageName'] for item in distributions.values()}) == 2
+          for distribution in distributions.values():
+              aliases = distribution['skillNames']
+              assert aliases.keys() <= skills, 'Unknown export skill name'
+              exported = {aliases.get(name, name) for name in skills}
+              assert len(exported) == len(skills), 'Duplicate export skill names'
+              assert all(len(distribution['packageName'] + ':' + name) <= 64 for name in exported)
 
           sys.exit(1 if failed else 0)
           PY

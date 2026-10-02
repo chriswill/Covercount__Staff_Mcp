@@ -5,5 +5,9 @@
       "covercount-manage-reservations": "manage-reservations",
       "covercount-reservation-briefing": "reservation-briefing"
     }
+  },
+  "openaiNewListing": {
+    "packageName": "covercount-staff",
+    "skillNames": {}
   }
 }

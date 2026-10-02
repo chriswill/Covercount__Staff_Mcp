@@ -1,7 +1,7 @@
 {
   "name": "covercount",
-  "version": "1.2.4",
-  "description": "Reservation briefings and venue operations with CoverCount.",
+  "version": "1.2.8",
+  "description": "Reservation and event operations for restaurant and venue staff.",
   "author": {
     "name": "CoverCount",
     "url": "https://www.covercount.io/"
@@ -10,12 +10,12 @@
   "keywords": ["reservations", "events", "hospitality", "venue-operations"],
   "skills": "./skills/",
   "interface": {
-    "displayName": "CoverCount",
-    "shortDescription": "Bookings and venue operations",
-    "longDescription": "Summarize reservations, covers and event activity. Find bookings, check availability, manage reservations and send guest messages. Event changes and refund recovery use review in CoverCount. Access follows your connected venue and staff permissions.",
+    "displayName": "CoverCount Staff",
+    "shortDescription": "Venue operations for staff",
+    "longDescription": "CoverCount Staff is a business operations tool for restaurant and venue staff. Use your existing CoverCount staff account to review reservation and event briefings, check availability, create or update bookings, assign tables, and send individual guest emails or SMS. Event visibility and capacity changes and recovery of existing cancellation refunds require review in CoverCount. Access follows your connected venues and staff permissions.",
     "developerName": "CoverCount",
-    "category": "Productivity",
-    "capabilities": ["Interactive", "Write"],
+    "category": "Business & Operations",
+    "capabilities": ["Reservation briefings", "Reservation management", "Guest messages", "Event operations", "Refund recovery"],
     "websiteURL": "https://www.covercount.io/",
     "supportURL": "https://support.cloudscope.io/",
     "privacyPolicyURL": "https://www.covercount.io/privacy",

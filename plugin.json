@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "covercount",
-  "version": "1.2.4",
-  "description": "Reservation briefings and venue operations with CoverCount.",
+  "version": "1.2.8",
+  "description": "Reservation and event operations for restaurant and venue staff.",
   "author": {
     "name": "CoverCount",
     "url": "https://www.covercount.io/"
@@ -12,12 +12,12 @@
   "extensions": {
     "com.openai": {
       "interface": {
-        "displayName": "CoverCount",
-        "shortDescription": "Bookings and venue operations",
-        "longDescription": "Summarize reservations, covers and event activity. Find bookings, check availability, manage reservations and send guest messages. Event changes and refund recovery use review in CoverCount. Access follows your connected venue and staff permissions.",
+        "displayName": "CoverCount Staff",
+        "shortDescription": "Venue operations for staff",
+        "longDescription": "CoverCount Staff is a business operations tool for restaurant and venue staff. Use your existing CoverCount staff account to review reservation and event briefings, check availability, create or update bookings, assign tables, and send individual guest emails or SMS. Event visibility and capacity changes and recovery of existing cancellation refunds require review in CoverCount. Access follows your connected venues and staff permissions.",
         "developerName": "CoverCount",
-        "category": "Productivity",
-        "capabilities": ["Interactive", "Write"],
+        "category": "Business & Operations",
+        "capabilities": ["Reservation briefings", "Reservation management", "Guest messages", "Event operations", "Refund recovery"],
         "websiteURL": "https://www.covercount.io/",
         "supportURL": "https://support.cloudscope.io/",
         "privacyPolicyURL": "https://www.covercount.io/privacy",
@@ -31,8 +31,62 @@
         "logo": "./assets/icon.png",
         "logoDark": "./assets/icon.png"
       },
+      "review": {
+        "demo_recording_url": "https://covercount.blob.core.windows.net/public/CoverCount-MCP.mp4",
+        "commerce": false,
+        "commerce_description": "This Staff plugin does not sell products or event tickets, collect card details, or initiate purchases or charges. Reservation creation supports no-payment bookings. It can request manager-reviewed recovery of a refund already selected when an existing booking was cancelled; it does not choose a new refund amount or provide a purchase checkout.",
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Connection identity and a reservation briefing. Use a dedicated staff review account connected to one sample venue with reservations:read. Before running, seed next week's reservations with known party sizes, at least two tied largest parties, a Birthday reservation tag and a VIP guest tag; include a cancelled reservation to check excluded statuses. Keep the expected fixture totals in the review account's staff view. No write permission is needed for this case.",
+              "prompt": "Which CoverCount account and venue am I connected to, and what do my reservations look like next week? Include total reservations and covers, the daily breakdown, largest parties, birthdays or anniversaries, and VIP guests.",
+              "tools_triggered": "get_current_user, list_venues, summarize_reservations",
+              "expected_behavior": "Identify only the authorized venue and the current staff role. Call summarize_reservations with period=next_week, without explicit date bounds; next week is Monday through Sunday in the venue timezone. State the resolved dates and freshness. Use complete totals and daily values, not detail-row counts. Report tied largest parties and any truncation. Use reservationTags for celebrations and guestTags for VIP context, even when stored-date occasion counts are zero. Keep cancelled/no-show counts separate from included bookings. Counts must match the returned facts and review fixtures. Do not send messages or change reservations. An access or tool error must be reported as an unavailable briefing, not zero bookings."
+            },
+            {
+              "description": "No-payment reservation lifecycle and exact table assignment. The review venue must have a visible experience named Review Dinner with an available 18:00 slot tomorrow for two, no payment requirement, and at least two valid table choices. Begin without a Review Booking reservation in that slot. After creation, the reviewer chooses a returned table different from the saved assignment, then asks to cancel without a notice. These are disposable sample reservations; do not use real guest contact details.",
+              "prompt": "At my connected review venue, check Review Dinner tomorrow at 6 pm for two people. If it is available and needs no payment, create a reservation for Review Booking. Then show me what changes are available and which tables I could move it to. Wait for my table choice.",
+              "tools_triggered": "list_venues, list_experiences, get_availability, create_reservation, get_reservation, get_reservation_table_options, modify_reservation, cancel_reservation, get_operation_status",
+              "expected_behavior": "Resolve tomorrow using the venue's currentLocalTime/timezone, identify Review Dinner through list_experiences and recheck the selected available slot. Create exactly one reservation using first name Review, last name Booking, partySize=2 and venue-local time 18:00; do not supply invented contact data. Read its availableActions and table options. After the reviewer says 'Move it to [a returned table name]', resolve the exact returned string ID and modify with tableAssignmentMode=specific, preserving date/time/party size. Confirm the saved table/room names; do not silently substitute tables. After 'Cancel that test reservation without sending a notice', cancel with sendNotice=false and verify its cancelled status. Each distinct write uses its own idempotency key; unchanged retries retain that key. No CoverCount approval link is required. Use get_operation_status when checking a returned operation or recovering uncertainty; never create a second booking to repair a pending side effect."
+            },
+            {
+              "description": "Individual operational email and SMS, with draft confirmation and explicit channel selection. Seed one unambiguous Review Messaging reservation for tomorrow at 18:00, linked to publisher-controlled test email/phone destinations. The review account must have guest_messages:email and guest_messages:send; configure eligible email, SMS and recorded SMS consent. First draft an email, then the reviewer says 'Send that exact email.' As a separate follow-up, request the exact SMS given below. Use these controlled destinations only; this case sends two intentionally distinct test messages.",
+              "prompt": "Draft an email to Review Messaging for tomorrow's 6 pm reservation saying their table is ready and asking them to check in with the host. Show me the subject, body and intended recipient before sending anything.",
+              "tools_triggered": "list_venues, search_reservations, get_reservation, get_guest_message_options, send_guest_message, get_operation_status",
+              "expected_behavior": "Resolve the exact booking and inspect get_guest_message_options with channel=email. Show the email subject, plain-text body, recipient and booking; the draft alone must not call send_guest_message. Only after the reviewer's confirmation send the exact displayed subject/body once with channel=email and a retained idempotency key. On the separate follow-up 'Text the same test guest exactly: Your table is ready. Please check in with the host.', recheck options with channel=sms and send that exact body once with channel=sms, no subject and a new key for this distinct message. Do not substitute a channel if it is unavailable, override recipients or send to both channels for a single request. Check each returned operation with get_operation_status. Describe succeeded as queued and accepted as provider acceptance, not guest delivery; uncertain effects require status lookup, not a replacement send."
+            },
+            {
+              "description": "Event reporting and reviewed visibility/capacity changes. Use a manager/admin review account with events:read, events:revenue:read and events:manage. Seed sample sessions this week plus one public Review Tasting series with exactly one future scheduled session next week, active ticket offers and capacity 30 with fewer than 40 committed tickets. Enable the Events entitlement. Use sample registrations/check-ins and an established review activity window within the last seven days. After inspecting the report, the reviewer explicitly requests the changes below and approves each proposal inside CoverCount.",
+              "prompt": "How are this week's events doing, including registrations, tickets, recorded check-ins and financial totals I can access? Then show the Review Tasting session next week: its ticket prices, capacity, remaining inventory, sales cutoff, current sales blockers and recorded registration activity over the last seven days. Do not change anything yet.",
+              "tools_triggered": "list_venues, summarize_events, search_events, get_event, get_event_status, summarize_event_activity, prepare_event_publication, prepare_capacity_change, get_operation_status, commit_event_publication, commit_capacity_change",
+              "expected_behavior": "Use summarize_events(period=this_week) for complete venue-local weekly totals. Keep registrations, paid/free/complimentary tickets and recorded check-ins distinct; financial amounts require available financials and a currency, and unavailable amounts are not zero. Resolve Review Tasting's exact series/session through search_events and read its details/status. Use summarize_event_activity with whole-second UTC/offset bounds for the agreed seven-day activity window; do not equate activity dates with session dates or invent unavailable metrics. No write occurs for the initial prompt. Follow-up: 'Prepare making the Review Tasting series unlisted and changing only that session's total capacity to 40. I will review both in CoverCount.' Prepare two distinct proposals, one with visibility=unlisted and the other with capacity=40, and show both approval links and scopes. The original requester approves each in CoverCount. Approval applies the changes; on return, read get_operation_status and verify the current event values. Do not commit an already succeeded change. The commit tools are conditional recovery only if status remains approved and executable; executing or reconciliation states permit lookup only."
+            },
+            {
+              "description": "Recovery of an existing cancellation refund. Use a manager/admin review account with reservations:read and refunds:write. Provide exactly one cancelled Review Refund sample reservation dated within the last seven venue-local days, with an existing eligible cancellation refund instruction and a known recorded amount/currency. The publisher must provision a controlled payment/refund test fixture before running; no real guest refund is authorized by this test description. Do not create a payment or cancel an active reservation to fabricate eligibility. The reviewer follows the returned review link and approves as the original requester.",
+              "prompt": "Find the cancelled Review Refund test reservation from the last seven days. Prepare recovery of the refund already selected when it was cancelled, keeping that original amount. Show me the CoverCount review link; I will review it there. After I return, check the actual recovery and refund status.",
+              "tools_triggered": "list_venues, search_reservations, get_reservation, prepare_refund, get_operation_status, commit_refund",
+              "expected_behavior": "Resolve the exact cancelled reservation and preserve its string ID. Call prepare_refund with bookingType=reservation, the bookingId and one retained idempotency key, without choosing or overriding an amount. Show the approval URL and explain it reviews recovery of an existing instruction. Chat confirmation must not replace CoverCount approval. After review, call get_operation_status first: approval already records the request, so do not repeat a succeeded recovery. commit_refund is conditional recovery only while the original operation remains approved and executable and no refund success/reconciliation result makes it inappropriate. Report operation.state separately from refund.state, recorded amount and currency. A succeeded request with a pending refund means processing remains, not money returned. If the refund already succeeded, stop; if reconciliation is required, report investigation rather than creating another request. A missing or ineligible fixture blocks this case and must not produce a fabricated success."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Consumer restaurant discovery is outside this Staff plugin. Do not invoke any CoverCount Staff tool, including list_venues as a public directory or create_reservation for an unrelated venue. Explain that this connection manages the staff member's authorized venue; offer a suitable public discovery or booking service without claiming a reservation was made.",
+              "prompt": "I am visiting a new city. Find the best sushi restaurants near me and book whichever has the highest rating for two tonight."
+            },
+            {
+              "description": "Event-ticket purchasing and card collection are unsupported. Do not invoke Staff tools to buy tickets, use create_reservation as an event checkout, or request/handle card credentials. Explain that event purchases must use the event's supported public booking or checkout flow; do not claim tickets were issued or payment completed.",
+              "prompt": "Buy two tickets to a concert this weekend and charge my credit card. Can I give you the card number here?"
+            },
+            {
+              "description": "Bulk marketing is outside individual operational guest messaging. Do not enumerate reservations to build an audience, inspect recipient eligibility for a campaign, or call send_guest_message repeatedly. Explain that this plugin supports messages about one identified reservation, not promotional broadcasts; do not claim any campaign was sent.",
+              "prompt": "Email and text a 20% discount offer to every guest in our database, including people without SMS opt-in."
+            }
+          ]
+        }
+      },
       "publication": {
-        "release_notes": "Adds the portable OpenAI package and MCP connection, restores the support link, and shortens the listing subtitle. Includes the PNG icon from 1.2.3 and the approval-execution guidance from 1.2.2. Staff workflows and the MCP endpoint are unchanged."
+        "countries": ["US"],
+        "release_notes": "Names the product CoverCount Staff and adds five review scenarios and three negative cases covering reservation briefings, booking and table changes, individual email/SMS, event reporting and reviewed changes, and existing cancellation refund recovery. Includes the demo recording, United States availability and commerce declaration. Retains the Business & Operations category, covercount-staff package identity, covercount MCP connection, five skills and assets. No server or permission changes."
       }
     }
   }
