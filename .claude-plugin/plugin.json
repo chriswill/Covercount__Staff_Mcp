@@ -1,5 +1,6 @@
 {
   "name": "covercount",
+  "displayName": "CoverCount Staff",
   "icon": "./assets/icon.png",
   "version": "1.2.8",
   "description": "Reservation and event operations for restaurant and venue staff.",
@@ -8,6 +9,12 @@
     "url": "https://www.covercount.io/"
   },
   "homepage": "https://www.covercount.io/",
+  "repository": "https://github.com/chriswill/Covercount__Staff_Mcp",
+  "license": "Apache-2.0",
+  "documentationUrl": "https://www.covercount.io/learn/connected-apps/covercount-staff",
+  "supportUrl": "https://support.cloudscope.io/",
+  "privacyPolicyUrl": "https://www.covercount.io/privacy",
+  "termsOfServiceUrl": "https://www.covercount.io/terms-of-service",
   "keywords": ["reservations", "events", "hospitality", "venue-operations"],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json"
