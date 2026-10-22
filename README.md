@@ -37,6 +37,13 @@ assistant prefers eligible email. Email requires separate consent and works
 without SMS setup or opt-in. An explicit request to text will not silently become
 email. Email uses the configured sender; CoverCount does not provide a reply inbox.
 
+**OpenAI review scenario limit (October 21, 2026):** version `1.2.10` shortens
+every review scenario to at most 200 characters, the limit the portal's Scenario
+field enforces. The full fixture and permission setup each case needs is kept
+outside the ZIP in `resources/covercount-staff-review-fixtures.md`; enter it in the
+portal's reviewer instructions. Upload `covercount-openai-new-listing-1.2.10.zip`
+to the same `covercount-staff` draft. No skill, tool or permission changes.
+
 **OpenAI MCP authentication (October 21, 2026):** version `1.2.9` declares
 `extensions["com.openai"].auth` on the `covercount` server in `mcp.json`
 (`type: "oauth"`, `client.mode: "cimd"`). The portal reads authentication only
