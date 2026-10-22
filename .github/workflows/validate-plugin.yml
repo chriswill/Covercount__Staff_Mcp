@@ -75,14 +75,16 @@ jobs:
               for case in cases[kind]:
                   assert set(case) == fields
                   assert all(isinstance(value, str) and value.strip() for value in case.values())
-                  assert len(case['description']) <= 4000
+                  assert len(case['description']) <= 200, 'Review scenario exceeds the portal limit'
           assert len({case['prompt'] for group in cases.values() for case in group}) == 8
           with open('mcp.json') as fh:
               mcp = json.load(fh)
           assert mcp == {
               '$schema': 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
               'mcpServers': {'covercount': {
-                  'type': 'streamable-http', 'url': 'https://mcp.covercount.io/mcp'}}}
+                  'type': 'streamable-http', 'url': 'https://mcp.covercount.io/mcp',
+                  'extensions': {'com.openai': {'auth': {
+                      'type': 'oauth', 'client': {'mode': 'cimd'}}}}}}}
 
           with open('distribution.json') as fh:
               distributions = json.load(fh)
