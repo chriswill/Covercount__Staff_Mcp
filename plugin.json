@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "covercount",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Reservation and event operations for restaurant and venue staff.",
   "author": {
     "name": "CloudScope",
@@ -86,7 +86,7 @@
       },
       "publication": {
         "countries": ["US"],
-        "release_notes": "Names the product CoverCount Staff and adds five review scenarios and three negative cases covering reservation briefings, booking and table changes, individual email/SMS, event reporting and reviewed changes, and existing cancellation refund recovery. Includes the demo recording, United States availability and commerce declaration. Retains the Business & Operations category, covercount-staff package identity, covercount MCP connection, five skills and assets. No server or permission changes."
+        "release_notes": "Declares OAuth authentication for the covercount MCP server in mcp.json (auth.type oauth, client mode cimd) so the portal can complete MCP setup; the server already accepts the ChatGPT client metadata document. No skill, tool, permission or listing changes."
       }
     }
   }

@@ -37,6 +37,15 @@ assistant prefers eligible email. Email requires separate consent and works
 without SMS setup or opt-in. An explicit request to text will not silently become
 email. Email uses the configured sender; CoverCount does not provide a reply inbox.
 
+**OpenAI MCP authentication (October 21, 2026):** version `1.2.9` declares
+`extensions["com.openai"].auth` on the `covercount` server in `mcp.json`
+(`type: "oauth"`, `client.mode: "cimd"`). The portal reads authentication only
+from that declaration; without it the MCPs tab showed "Endpoint unavailable"
+and Connect/Rescan were disabled. The authorization server already accepts the
+ChatGPT client metadata document `https://chatgpt.com/oauth/client.json`. Upload
+`covercount-openai-new-listing-1.2.9.zip` to the same `covercount-staff` draft,
+then connect under MCPs. No skill, tool or permission changes.
+
 **OpenAI review metadata (October 1, 2026):** version `1.2.8` names the product
 **CoverCount Staff** and adds five positive
 and three negative cases, the owner's demo recording, United States availability,
