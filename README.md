@@ -37,6 +37,15 @@ assistant prefers eligible email. Email requires separate consent and works
 without SMS setup or opt-in. An explicit request to text will not silently become
 email. Email uses the configured sender; CoverCount does not provide a reply inbox.
 
+**Date-range guidance (November 3, 2026):** version `1.2.11` updates
+`covercount-manage-reservations` 0.4.1, `covercount-reservation-briefing` 0.2.1 and
+`covercount-event-operations` 0.2.3. When a read rejects a date range or fails, they
+keep the user's requested dates (splitting long reservation ranges into valid
+31-day ranges) instead of widening or shifting them. The staff MCP server's
+instructions used to carry this rule. Following the Anthropic directory review,
+the server now describes its tools factually and the guidance lives in these
+skills. No tool, permission or listing changes.
+
 **OpenAI review scenario limit (October 21, 2026):** version `1.2.10` shortens
 every review scenario to at most 200 characters, the limit the portal's Scenario
 field enforces. The full fixture and permission setup each case needs is kept

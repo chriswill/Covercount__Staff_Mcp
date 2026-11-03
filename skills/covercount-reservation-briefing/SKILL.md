@@ -2,7 +2,7 @@
 name: covercount-reservation-briefing
 description: Create a CoverCount reservation briefing for today, tonight, tomorrow, or next week, including scheduled reads. Use for totals, covers, largest parties, celebration tags such as Birthday or Anniversary, and guest tags such as VIP; event ticket reporting is separate.
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # CoverCount reservation briefing
@@ -44,7 +44,8 @@ Call `summarize_reservations` once for the resolved period. Use its complete
 `totals`, not the length of `search_reservations` or the five largest-party rows.
 If the summary tool is missing or the read fails, report that the briefing could
 not be refreshed and identify the connection/tool issue. Do not substitute sample
-numbers, stale results, or zero bookings. A missing tool alone does not prove
+numbers, stale results, or zero bookings, and do not widen or shift the requested
+period to work around an error. A missing tool alone does not prove
 whether the cause is deployment, consent, role or a disconnected client.
 
 - Headline totals include `Booked`, `Confirmed`, `CheckedIn` and `Completed`.

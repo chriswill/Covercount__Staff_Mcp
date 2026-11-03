@@ -2,7 +2,7 @@
 name: covercount-manage-reservations
 description: Find CoverCount reservations, celebration and guest tags, and table assignments; check availability; or create, cancel, reschedule, resize, or move a booking at the user's request. Use for individual bookings; aggregate briefings and event tickets are separate.
 metadata:
-  version: "0.4.0"
+  version: "0.4.1"
 ---
 
 # Manage CoverCount reservations
@@ -18,6 +18,9 @@ questions stay read-only. The server enforces permissions and booking rules.
   Follow `nextCursor` as needed with identical filters. A name is a literal
   substring, not a unique identity. Resolve multiple matches using date, time,
   experience and party size before making a change.
+- Keep the user's requested dates. If a read rejects the range or fails, split a
+  long range into valid ranges of at most 31 days or report the error; do not
+  widen or shift the dates to work around it.
 - Use `get_reservation` with the exact string `reservationId` to read the selected
   booking. Keep IDs as strings; never round them through a floating-point number.
   A missing/inaccessible record is not proof that it was cancelled.

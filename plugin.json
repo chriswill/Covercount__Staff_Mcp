@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "covercount",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "description": "Reservation and event operations for restaurant and venue staff.",
   "author": {
     "name": "CloudScope",
@@ -86,7 +86,7 @@
       },
       "publication": {
         "countries": ["US"],
-        "release_notes": "Shortens each review scenario to the portal's 200-character limit; full reviewer setup moves to the reviewer instructions. Includes the 1.2.9 OAuth declaration (auth.type oauth, client mode cimd) in mcp.json. No skill, tool, permission or listing changes."
+        "release_notes": "Reservation management, reservation briefing and event operations skills keep the user's requested dates when a read fails or rejects the range, instead of widening or shifting them. This guidance moved from the server instructions, which now describe tools factually. Includes the 1.2.10 review-scenario and 1.2.9 OAuth changes. No tool, permission or listing changes."
       }
     }
   }

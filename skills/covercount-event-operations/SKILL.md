@@ -2,7 +2,7 @@
 name: covercount-event-operations
 description: Create CoverCount event briefings with session totals, recorded check-ins and authorized financial results; find sessions or prepare approved visibility/capacity changes. Use for event performance and scheduled event reports, not dining reservations or ticket purchases.
 metadata:
-  version: "0.2.2"
+  version: "0.2.3"
 ---
 
 # CoverCount event operations
@@ -56,7 +56,8 @@ have separate read timestamps and are not a historical snapshot.
 For recurring briefings, resolve the requested period anew on every invocation.
 State the venue, dates and meaningful freshness. If the call/authentication fails,
 report that the briefing could not be refreshed; never reuse stale totals as
-current or treat failure as an empty venue. Scheduling authorizes only the read.
+current or treat failure as an empty venue. Do not widen or shift the requested
+dates to work around an error. Scheduling authorizes only the read.
 
 ## Identify the series and session
 
