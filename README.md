@@ -139,14 +139,7 @@ workflow instructions remain unchanged. These aliases apply only to the legacy
 Staff export; the replacement `covercount-staff` export needs no aliases.
 Do not copy either Staff identity to Explore.
 
-Version `1.2.3` replaces the default listing icon with the supplied 1024 x 1024
-PNG emblem at [assets/icon.png](assets/icon.png), including composer and light/dark
-logo metadata. Use this PNG when a directory submission asks for an icon upload.
-Anthropic previously set the Staff listing icon manually; the packaged asset does
-not confirm that the hosted listing has refreshed.
-The Claude manifest now declares `"icon": "./assets/icon.png"` for its directory
-listing. The packaged PNG does not establish that the portal previews relative
-paths or bypasses expiration of separately uploaded images.
+Version `1.2.3` introduced the CoverCount Staff emblem for directory listings.
 
 Version `1.2.2` explains that approving an event change or refund recovery in
 CoverCount also executes the reviewed request. Assistants read its status before
