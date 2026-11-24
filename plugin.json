@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "covercount",
-  "version": "1.2.11",
+  "version": "1.2.12",
   "description": "Reservation and event operations for restaurant and venue staff.",
   "author": {
     "name": "CloudScope",
